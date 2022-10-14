@@ -1,6 +1,5 @@
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
-
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
 
 /**
@@ -49,6 +48,18 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
   return section;
 };
 
+const products = async () => {
+  const object = await fetchProducts('computador');
+  const items = document.querySelector('.items');
+  object.map((element) => {
+    const { id, title, thumbnail } = element;
+    const addProdutos = items.appendChild(createProductItemElement({ id, title, thumbnail }));
+    return addProdutos;
+  });
+};
+
+products();
+
 /**
  * Função que recupera o ID do produto passado como parâmetro.
  * @param {Element} product - Elemento do produto.
@@ -72,4 +83,4 @@ const createCartItemElement = ({ id, title, price }) => {
   return li;
 };
 
-window.onload = () => { };
+/* window.onload = () => { }; */
