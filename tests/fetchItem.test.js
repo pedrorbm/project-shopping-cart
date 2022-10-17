@@ -11,7 +11,7 @@ describe('2 - Teste a função fetchItem', () => {
   test('Testando se fetch foi chamado', async () => {
     expect.assertions(1)
     await fetchItem('MLB1615760527');
-    expect(fetch).toHaveBeenCalledTimes('function');
+    expect(fetch).toHaveBeenCalledTimes(1);
   })
 
   test('Testando se fetch retorna o endpoint correto', async () => {

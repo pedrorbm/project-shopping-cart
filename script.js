@@ -51,7 +51,8 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
 const products = async () => {
   const object = await fetchProducts('computador');
   const items = document.querySelector('.items');
-  object.map((element) => {
+  const product = object.results;
+  product.map((element) => {
     const { id, title, thumbnail } = element;
     const addProdutos = items.appendChild(createProductItemElement({ id, title, thumbnail }));
     return addProdutos;
@@ -83,4 +84,22 @@ const createCartItemElement = ({ id, title, price }) => {
   return li;
 };
 
-/* window.onload = () => { }; */
+const botao = document.querySelector('.item__add');
+console.log(botao);
+
+const eventTarget = (event) => {
+  const a = event.target;
+  return console.log(a);
+};
+console.log(eventTarget());
+
+eventTarget(); 
+
+const addCardItemElement = async (idItem) => {
+  /* const chamada = await fetchItem(idItem); */
+
+};
+
+/* window.onload = () => { 
+ 
+}; */

@@ -5,7 +5,7 @@ const fetchProducts = async (produto) => {
     const requisicao = await fetch(url);
     const resposta = await requisicao.json();
 
-    return resposta.results;
+    return resposta;
   } catch (error) {
     return error;
   }
