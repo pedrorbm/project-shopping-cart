@@ -59,14 +59,17 @@ const products = async () => {
   });
 };
 
-products();
-
 /**
  * Função que recupera o ID do produto passado como parâmetro.
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
-const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
+const getIdFromProductItem = (product) => product.querySelector('.item_id').innerText;
+
+const idItem = async (id) => {
+  const searchId = await fetchItem(id);
+  return searchId;
+};
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -77,29 +80,28 @@ const getIdFromProductItem = (product) => product.querySelector('span.id').inner
  * @returns {Element} Elemento de um item do carrinho.
  */
 const createCartItemElement = ({ id, title, price }) => {
+  const ol = document.querySelector('.cart__items');
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
+  return ol.appendChild(li);
 };
 
-const botao = document.querySelector('.item__add');
-console.log(botao);
-
-const eventTarget = (event) => {
-  const a = event.target;
-  return console.log(a);
-};
-console.log(eventTarget());
-
-eventTarget(); 
-
-const addCardItemElement = async (idItem) => {
-  /* const chamada = await fetchItem(idItem); */
-
+const eventClick = () => {
+  const botao = document.querySelectorAll('.item__add');
+  botao.forEach((element) => element.addEventListener('click', async (event) => {
+    const buttonBuy = event.target;
+    const section = buttonBuy.parentNode;
+    const getId = getIdFromProductItem(section);
+    const productId = await idItem(getId);
+    const { id, title, price } = productId;
+    return console.log(createCartItemElement({ id, title, price }));
+  }));
 };
 
-/* window.onload = () => { 
- 
-}; */
+window.onload = async () => { 
+  await products();
+  eventClick();
+}; 
+
+/* li.addEventListener('click', cartItemClickListener); */
