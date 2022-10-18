@@ -71,6 +71,12 @@ const idItem = async (id) => {
   return searchId;
 };
 
+const cartItemClickListener = (event) => {
+  const cartItem = event.target;
+  const removeItemCart = cartItem.remove();
+  return removeItemCart;
+};
+
 /**
  * Função responsável por criar e retornar um item do carrinho.
  * @param {Object} product - Objeto do produto.
@@ -84,6 +90,7 @@ const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+  li.addEventListener('click', cartItemClickListener);
   return ol.appendChild(li);
 };
 
@@ -95,7 +102,7 @@ const eventClick = () => {
     const getId = getIdFromProductItem(section);
     const productId = await idItem(getId);
     const { id, title, price } = productId;
-    return console.log(createCartItemElement({ id, title, price }));
+    return createCartItemElement({ id, title, price });
   }));
 };
 
@@ -103,5 +110,3 @@ window.onload = async () => {
   await products();
   eventClick();
 }; 
-
-/* li.addEventListener('click', cartItemClickListener); */
