@@ -95,8 +95,8 @@ const createCartItemElement = ({ id, title, price }) => {
 };
 
 const eventClick = () => {
-  const botao = document.querySelectorAll('.item__add');
-  botao.forEach((element) => element.addEventListener('click', async (event) => {
+  const button = document.querySelectorAll('.item__add');
+  button.forEach((element) => element.addEventListener('click', async (event) => {
     const buttonBuy = event.target;
     const section = buttonBuy.parentNode;
     const getId = getIdFromProductItem(section);
@@ -106,7 +106,69 @@ const eventClick = () => {
   }));
 };
 
+const save = () => {
+  const button = document.querySelectorAll('.item__add');
+  const array = [];
+  button.forEach((element) => element.addEventListener('click', async (event) => {
+    const buttonBuy = event.target;
+    const section = buttonBuy.parentNode;
+    const getId = getIdFromProductItem(section);
+    const productId = await idItem(getId);
+    const { id, title, price } = productId;
+    array.push({ idd: `${id}`, titlee: `${title}`, pricee: `${price}` });
+    return saveCartItems(array);
+  }));
+};
+
+const removeCart = (event) => {
+  const cartItem = event.target;
+  cartItem.remove();
+};
+
+const removeLocal = (event) => {
+  const local = event.target;
+  const localText = local.innerText;
+  let string = 'M';
+  for (let index = 5; index < 17; index += 1) {
+    const element = localText[index];
+    string += element;
+  }
+  const getItem = getSavedCartItems();
+  const fil = getItem.filter((element) => element.idd !== string);
+  saveCartItems(fil);
+};
+
+const get = () => {
+  const ol = document.querySelector('.cart__items');
+  const getItem = getSavedCartItems();
+  if (getItem === null || getItem === undefined) {
+    console.log('nada');
+  } else if (getItem !== null || getItem !== undefined) {
+    getItem.forEach((element) => {
+      const { idd, titlee, pricee } = element;
+      const li = document.createElement('li');
+      li.className = 'cart__item';
+      li.innerText = `ID: ${idd} | TITLE: ${titlee} | PRICE: $${pricee}`;
+      li.addEventListener('click', removeCart);
+      li.addEventListener('click', removeLocal);
+      return ol.appendChild(li);
+    });
+  }
+};
+
+const removeCartAll = () => {
+  const itemCart = document.querySelectorAll('.cart__item');
+  const buttonCart = document.querySelector('.empty-cart');
+  buttonCart.addEventListener('click', () => {
+    itemCart.forEach((element) => element.remove());
+    localStorage.clear();
+  });
+};
+
 window.onload = async () => { 
   await products();
   eventClick();
-}; 
+  save(); 
+  get();
+  removeCartAll();
+};
