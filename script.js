@@ -2,6 +2,8 @@
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
 
+const ol = document.querySelector('.cart__items');
+
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
  * @param {string} imageSource - URL da imagem.
@@ -86,7 +88,6 @@ const cartItemClickListener = (event) => {
  * @returns {Element} Elemento de um item do carrinho.
  */
 const createCartItemElement = ({ id, title, price }) => {
-  const ol = document.querySelector('.cart__items');
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
@@ -139,7 +140,6 @@ const removeLocal = (event) => {
 };
 
 const get = () => {
-  const ol = document.querySelector('.cart__items');
   const getItem = getSavedCartItems();
   if (getItem === null || getItem === undefined) {
     console.log('nada');
@@ -157,10 +157,9 @@ const get = () => {
 };
 
 const removeCartAll = () => {
-  const itemCart = document.querySelectorAll('.cart__item');
   const buttonCart = document.querySelector('.empty-cart');
   buttonCart.addEventListener('click', () => {
-    itemCart.forEach((element) => element.remove());
+    ol.innerHTML = '';
     localStorage.clear();
   });
 };
